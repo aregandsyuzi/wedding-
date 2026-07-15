@@ -17,23 +17,18 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400;letter-spacing:.
 #topbar button{pointer-events:auto;background:rgba(251,246,239,.75);backdrop-filter:blur(8px);border:1px solid var(--gold-soft);color:var(--ink);border-radius:30px;padding:7px 14px;font-family:'Jost';font-size:12px;letter-spacing:.14em;cursor:pointer;transition:.3s}
 #topbar button:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 
-/* INTRO — fully closed envelope */
 #intro{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 42%,#fbf4e9,#f0e6d4);display:flex;align-items:center;justify-content:center;transition:opacity 1.1s ease,visibility 1.1s;perspective:1500px}
 #intro.gone{opacity:0;visibility:hidden}
 .env{position:relative;width:min(86vw,420px);aspect-ratio:1.5/1;cursor:pointer;transition:transform 1s ease,opacity 1s ease}
 .env.opened{transform:translateY(-8%) scale(1.04);opacity:0;pointer-events:none}
 .env-back{position:absolute;inset:0;background:linear-gradient(150deg,#fbf6ef,#efe2cf);border:1px solid #d9c4a2;border-radius:8px;box-shadow:0 44px 100px -44px rgba(120,90,50,.5)}
-/* left & right triangular sides */
 .side-l,.side-r{position:absolute;top:0;bottom:0;width:52%;z-index:5}
 .side-l{left:0;background:linear-gradient(120deg,#f4e9d6,#ecdcc2);clip-path:polygon(0 0,0 100%,100% 50%)}
 .side-r{right:0;background:linear-gradient(240deg,#f1e5d0,#e8d6ba);clip-path:polygon(100% 0,100% 100%,0 50%)}
-/* bottom triangle */
 .body-front{position:absolute;left:0;right:0;bottom:0;top:0;background:linear-gradient(160deg,#f6ecda,#ead9bd);border:1px solid #d9c4a2;clip-path:polygon(0 100%,50% 50%,100% 100%);z-index:6;border-radius:0 0 8px 8px}
-/* top closed flap */
 .flap{position:absolute;left:0;right:0;top:0;height:100%;background:linear-gradient(155deg,#f8efe0,#e6d4b6);border:1px solid #d9c4a2;clip-path:polygon(0 0,100% 0,50% 55%);transform-origin:top;transition:transform 1.1s cubic-bezier(.6,0,.3,1);z-index:8;border-radius:8px 8px 0 0}
 .env.opened .flap{transform:rotateX(178deg);z-index:2}
 .flap::after{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(0,0,0,.04));clip-path:polygon(0 0,100% 0,50% 55%)}
-/* wax seal sits over the flap tip */
 .wax{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#d8b877,#b08d4f 55%,#8f6f38);box-shadow:0 6px 18px rgba(120,80,20,.45),inset 0 2px 6px rgba(255,240,200,.4);z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .5s ease,opacity .5s ease;cursor:pointer}
 .wax::after{content:'';position:absolute;inset:5px;border-radius:50%;border:1px dashed rgba(255,245,220,.5)}
 .wax .init{font-family:'Cormorant Garamond';font-size:24px;color:#fff7e6;letter-spacing:.04em;position:relative;z-index:2;line-height:1}
@@ -95,6 +90,7 @@ canvas#burst{position:fixed;inset:0;z-index:99;pointer-events:none}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .btn-submit{width:100%;background:var(--gold);color:#fff;border:none;padding:16px;font-family:'Jost';font-size:13px;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:.3s;margin-top:6px}
 .btn-submit:hover{background:var(--ink)}
+.btn-submit:disabled{opacity:.6;cursor:default}
 .rsvp-msg{margin-top:18px;text-align:center;font-size:14px;min-height:20px;color:var(--gold)}
 
 .foot{background:var(--ink);color:var(--champagne);text-align:center;padding:clamp(50px,9vw,80px) 22px}
@@ -113,8 +109,10 @@ canvas#burst{position:fixed;inset:0;z-index:99;pointer-events:none}
 .admin-box .close{float:right;cursor:pointer;font-size:22px;color:var(--ink-soft)}
 .admin-gate input{width:100%;padding:12px;border:1px solid #d9c6a8;margin:14px 0;font-family:'Jost'}
 .admin-gate button,.admin-tools button{background:var(--gold);color:#fff;border:none;padding:11px 18px;letter-spacing:.14em;font-size:12px;text-transform:uppercase;cursor:pointer;font-family:'Jost'}
-.admin-tools{display:flex;gap:10px;margin:16px 0}
+.admin-tools{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
 .admin-tools button.alt{background:var(--ink)}
+.admin-note{font-size:12px;color:var(--ink-soft);line-height:1.6;background:#f6efe2;border:1px solid #e6d7bf;padding:14px;margin-top:6px}
+.admin-note a{color:var(--gold)}
 table.rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
 table.rt th,table.rt td{border:1px solid #e0d0b6;padding:8px 10px;text-align:left}
 table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-transform:uppercase}
@@ -217,7 +215,7 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
       <label data-hy="Ուղերձ զույգին (ըստ ցանկության)" data-en="A note for the couple (optional)">Ուղերձ զույգին (ըստ ցանկության)</label>
       <textarea name="note" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn-submit" data-hy="Ուղարկել" data-en="Send RSVP">Ուղարկել</button>
+    <button type="submit" class="btn-submit" id="submitBtn" data-hy="Ուղարկել" data-en="Send RSVP">Ուղարկել</button>
     <div class="rsvp-msg" id="rsvpMsg"></div>
   </form>
 </section>
@@ -238,8 +236,13 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
       <button id="adminEnter">Enter</button>
     </div>
     <div class="hidden" id="adminPanel">
+      <div class="admin-note">
+        <strong>All guest RSVPs are collected in your Google Sheet.</strong><br>
+        Open the sheet to see every response. To get Excel: in the sheet, use File → Download → Microsoft Excel (.xlsx).<br>
+        The table below only shows responses submitted from <em>this</em> device — it is not the full list.
+      </div>
       <div class="admin-tools">
-        <button id="exportCsv">Export Excel / CSV</button>
+        <button id="exportCsv">Export this device (CSV)</button>
         <button class="alt" id="refreshRsvp">Refresh</button>
       </div>
       <div id="rsvpTableWrap"></div>
@@ -249,7 +252,12 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
 
 <script>
 (function(){
-  var CONFIG={APPS_SCRIPT_URL:"",ADMIN_PASSWORD:"areg2026",MUSIC_URL:"music.mp3",WEDDING_DATE:"2026-09-05T13:00:00"};
+  var CONFIG={
+    APPS_SCRIPT_URL:"https://script.google.com/macros/s/AKfycbx0rDxjC7t-v6Rk6UMmX4BeRKJRFfeYr3z1yAPzfGT06CN2qKaKlkRJM69cWq7lVvFSPA/exec",
+    ADMIN_PASSWORD:"areg2026",
+    MUSIC_URL:"music.mp3",
+    WEDDING_DATE:"2026-09-05T13:00:00"
+  };
   var $=function(s){return document.querySelector(s)},$$=function(s){return document.querySelectorAll(s)};
 
   var audio=new Audio(CONFIG.MUSIC_URL);audio.loop=true;audio.volume=0;
@@ -320,14 +328,20 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
   function saveR(r){var a=getR();a.push(r);localStorage.setItem('as_rsvps',JSON.stringify(a))}
 
   $('#rsvpForm').addEventListener('submit',function(e){
-    e.preventDefault();var f=e.target,msg=$('#rsvpMsg');
+    e.preventDefault();
+    var f=e.target,msg=$('#rsvpMsg'),btn=$('#submitBtn');
     var names=[$('#mainName').value];
     gn.querySelectorAll('input').forEach(function(i){if(i.value)names.push(i.value)});
     var rec={timestamp:new Date().toLocaleString(),name:names.join(', '),attending:f.attending.value,guests:gc.value,note:f.note.value};
+    btn.disabled=true;
     msg.textContent=lang==='hy'?'Ուղարկվում է…':'Sending…';
-    function done(){msg.textContent=lang==='hy'?'Շնորհակալություն։ Ձեր պատասխանը ստացվեց։ ♥':'Thank you! Your response is received. ♥';f.reset();rebuildGuestFields()}
-    if(CONFIG.APPS_SCRIPT_URL){fetch(CONFIG.APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec)}).then(function(){saveR(rec);done()}).catch(function(){saveR(rec);done()})}
-    else{saveR(rec);setTimeout(done,500)}
+    function done(){
+      msg.textContent=lang==='hy'?'Շնորհակալություն։ Ձեր պատասխանը ստացվեց։ ♥':'Thank you! Your response is received. ♥';
+      f.reset();rebuildGuestFields();btn.disabled=false;
+    }
+    fetch(CONFIG.APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)})
+      .then(function(){saveR(rec);done()})
+      .catch(function(){saveR(rec);done()});
   });
 
   var admin=$('#admin');
@@ -339,11 +353,11 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
   $('#refreshRsvp').addEventListener('click',renderTable);
   function esc(s){return String(s||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c]})}
   function renderTable(){var a=getR(),w=$('#rsvpTableWrap');
-    if(!a.length){w.innerHTML='<p style="font-size:13px;color:var(--ink-soft);padding:14px 0">No responses yet.</p>';return}
+    if(!a.length){w.innerHTML='<p style="font-size:13px;color:var(--ink-soft);padding:14px 0">No responses from this device yet. Check your Google Sheet for the full list.</p>';return}
     var h='<table class="rt"><thead><tr><th>#</th><th>Time</th><th>Names</th><th>Attending</th><th>Guests</th><th>Note</th></tr></thead><tbody>';
     a.forEach(function(r,i){h+='<tr><td>'+(i+1)+'</td><td>'+esc(r.timestamp)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.attending)+'</td><td>'+esc(r.guests)+'</td><td>'+esc(r.note)+'</td></tr>'});
     w.innerHTML=h+'</tbody></table>'}
-  $('#exportCsv').addEventListener('click',function(){var a=getR();if(!a.length){alert('No responses to export.');return}
+  $('#exportCsv').addEventListener('click',function(){var a=getR();if(!a.length){alert('No responses on this device. Use your Google Sheet for the full list.');return}
     var head=['Timestamp','Names','Attending','Guests','Note'];
     var rows=a.map(function(r){return[r.timestamp,r.name,r.attending,r.guests,r.note].map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"'}).join(',')});
     var csv=head.join(',')+'\n'+rows.join('\n');
