@@ -112,7 +112,6 @@ canvas#burst{position:fixed;inset:0;z-index:99;pointer-events:none}
 .admin-tools{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
 .admin-tools button.alt{background:var(--ink)}
 .admin-note{font-size:12px;color:var(--ink-soft);line-height:1.6;background:#f6efe2;border:1px solid #e6d7bf;padding:14px;margin-top:6px}
-.admin-note a{color:var(--gold)}
 table.rt{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
 table.rt th,table.rt td{border:1px solid #e0d0b6;padding:8px 10px;text-align:left}
 table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-transform:uppercase}
@@ -203,6 +202,13 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
       </div>
     </div>
     <div class="fld">
+      <label data-hy="Ո՞ր կողմից եք" data-en="Whose side are you from?">Ո՞ր կողմից եք</label>
+      <div class="attend-toggle">
+        <label><input type="radio" name="side" value="Bride" checked><span data-hy="Հարսի կողմից" data-en="Bride's side">Հարսի կողմից</span></label>
+        <label><input type="radio" name="side" value="Groom"><span data-hy="Փեսայի կողմից" data-en="Groom's side">Փեսայի կողմից</span></label>
+      </div>
+    </div>
+    <div class="fld">
       <label data-hy="Հյուրերի քանակ" data-en="Number of Guests">Հյուրերի քանակ</label>
       <select name="guests" id="guestCount"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
     </div>
@@ -238,8 +244,8 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
     <div class="hidden" id="adminPanel">
       <div class="admin-note">
         <strong>All guest RSVPs are collected in your Google Sheet.</strong><br>
-        Open the sheet to see every response. To get Excel: in the sheet, use File → Download → Microsoft Excel (.xlsx).<br>
-        The table below only shows responses submitted from <em>this</em> device — it is not the full list.
+        Open the sheet to see every response. For Excel: File → Download → Microsoft Excel (.xlsx).<br>
+        The table below only shows responses submitted from <em>this</em> device.
       </div>
       <div class="admin-tools">
         <button id="exportCsv">Export this device (CSV)</button>
@@ -332,7 +338,7 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
     var f=e.target,msg=$('#rsvpMsg'),btn=$('#submitBtn');
     var names=[$('#mainName').value];
     gn.querySelectorAll('input').forEach(function(i){if(i.value)names.push(i.value)});
-    var rec={timestamp:new Date().toLocaleString(),name:names.join(', '),attending:f.attending.value,guests:gc.value,note:f.note.value};
+    var rec={timestamp:new Date().toLocaleString(),name:names.join(', '),attending:f.attending.value,guests:gc.value,note:f.note.value,side:f.side.value};
     btn.disabled=true;
     msg.textContent=lang==='hy'?'Ուղարկվում է…':'Sending…';
     function done(){
@@ -354,12 +360,12 @@ table.rt th{background:var(--champagne);font-weight:500;font-size:11px;text-tran
   function esc(s){return String(s||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c]})}
   function renderTable(){var a=getR(),w=$('#rsvpTableWrap');
     if(!a.length){w.innerHTML='<p style="font-size:13px;color:var(--ink-soft);padding:14px 0">No responses from this device yet. Check your Google Sheet for the full list.</p>';return}
-    var h='<table class="rt"><thead><tr><th>#</th><th>Time</th><th>Names</th><th>Attending</th><th>Guests</th><th>Note</th></tr></thead><tbody>';
-    a.forEach(function(r,i){h+='<tr><td>'+(i+1)+'</td><td>'+esc(r.timestamp)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.attending)+'</td><td>'+esc(r.guests)+'</td><td>'+esc(r.note)+'</td></tr>'});
+    var h='<table class="rt"><thead><tr><th>#</th><th>Time</th><th>Names</th><th>Attending</th><th>Side</th><th>Guests</th><th>Note</th></tr></thead><tbody>';
+    a.forEach(function(r,i){h+='<tr><td>'+(i+1)+'</td><td>'+esc(r.timestamp)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.attending)+'</td><td>'+esc(r.side)+'</td><td>'+esc(r.guests)+'</td><td>'+esc(r.note)+'</td></tr>'});
     w.innerHTML=h+'</tbody></table>'}
   $('#exportCsv').addEventListener('click',function(){var a=getR();if(!a.length){alert('No responses on this device. Use your Google Sheet for the full list.');return}
-    var head=['Timestamp','Names','Attending','Guests','Note'];
-    var rows=a.map(function(r){return[r.timestamp,r.name,r.attending,r.guests,r.note].map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"'}).join(',')});
+    var head=['Timestamp','Names','Attending','Guests','Note','Side'];
+    var rows=a.map(function(r){return[r.timestamp,r.name,r.attending,r.guests,r.note,r.side].map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"'}).join(',')});
     var csv=head.join(',')+'\n'+rows.join('\n');
     var b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),u=URL.createObjectURL(b),l=document.createElement('a');
     l.href=u;l.download='areg-syuzi-rsvps.csv';l.click();URL.revokeObjectURL(u)});
